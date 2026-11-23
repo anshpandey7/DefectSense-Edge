@@ -1,0 +1,2 @@
+ID,Part ID,Inspection Time,Verdict,Severity,Severity Score,Defect Count,Inference (ms),Backend,Fallback Used,Advice
+1,PART-WEB-001,2026-11-23 22:50:28,REJECT,CRITICAL,0.85,1,15.2,cpu_onnx,0,

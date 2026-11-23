@@ -1,0 +1,52 @@
+# DefectSense Edge Severity Rules & Scoring Engine
+# Transparent, deterministic scoring: Score = (class_weight * w_class + area_factor * w_area + count_factor * w_count + edge_factor * w_edge) * confidence
+
+formula_weights:
+  class_weight: 0.40
+  area_weight: 0.30
+  count_weight: 0.15
+  edge_weight: 0.15
+
+# Class-specific baseline hazard weights (0.0 = harmless, 1.0 = catastrophic)
+defect_class_weights:
+  crack: 1.00             # Structural crack: highest hazard
+  crazing: 0.80           # Network of microcracks
+  pitted_surface: 0.70    # Cavities affecting surface fatigue
+  rolled_in_scale: 0.65   # Oxide scale embedded in sheet
+  inclusion: 0.60         # Non-metallic particles in metal
+  patches: 0.50           # Localized surface discoloration/thinning
+  scratches: 0.40         # Surface scratch
+  unknown_anomaly: 0.85   # Unsupervised anomaly flagged
+
+# Area of defect relative to total part inspection area (%)
+# Area factor scaling:
+area_scaling:
+  critical_threshold_pct: 10.0   # Defect area > 10% -> 1.0 factor
+  high_threshold_pct: 4.0        # Defect area > 4%  -> 0.75 factor
+  medium_threshold_pct: 1.0      # Defect area > 1%  -> 0.50 factor
+  low_threshold_pct: 0.2         # Defect area > 0.2%-> 0.25 factor
+
+# Location penalty: Defects near critical edges (within 5% of borders) weaken mechanical integrity
+edge_proximity_margin_pct: 0.05
+edge_penalty_multiplier: 1.25
+
+# Severity Thresholds (0.0 to 1.0 scale)
+severity_thresholds:
+  critical: 0.75
+  high: 0.50
+  medium: 0.25
+  low: 0.00
+
+# Verdict Rules
+verdict_mapping:
+  CRITICAL: "REJECT"
+  HIGH: "REJECT"
+  MEDIUM: "REVIEW"
+  LOW: "PASS"
+  NONE: "PASS"
+
+# Override rules
+overrides:
+  reject_if_any_class: ["crack"]          # Immediate reject if crack detected with conf > 0.45
+  reject_if_total_defects_exceed: 5       # More than 5 distinct defects on single part
+  review_if_defect_count_exceeds: 2       # 3+ low defects trigger REVIEW instead of PASS

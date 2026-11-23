@@ -1,0 +1,61 @@
+# DefectSense Edge Main Configuration
+
+app:
+  name: "DefectSense Edge"
+  version: "1.0.0"
+  log_level: "INFO"
+  line_name: "Line-A3-ColdRolling"
+  product_name: "HotRolled-Steel-Coil"
+
+hardware:
+  preferred_backend: "auto"    # "auto", "cpu_onnx", "hailo"
+  num_threads: 4              # Threads for ONNX / ExecuTorch on Pi 5 (4 Cortex-A76 cores)
+  enable_arm_neon: true
+
+source:
+  type: "folder"              # "folder", "video", "camera"
+  path: "data/sample_parts"   # path to folder or video
+  camera_index: 0
+  fps: 15
+  width: 640
+  height: 640
+  loop: true
+
+vision:
+  model_path: "models/neu_yolov8n.onnx"
+  input_size: [640, 640]
+  confidence_threshold: 0.35
+  iou_threshold: 0.45
+  anomaly_mode: false
+  anomaly_model_path: "models/mvtec_anomaly.onnx"
+  anomaly_threshold: 0.65
+
+severity:
+  rules_file: "config/severity_rules.yaml"
+
+advisor:
+  backend: "executorch"       # "executorch", "fallback"
+  pte_model_path: "models/llama3_2_1b_instruct.pte"
+  tokenizer_path: "models/tokenizer.bin"
+  timeout_seconds: 8.0
+  debounce_seconds: 3.0       # Only trigger LLM on defect events at most once per interval
+  max_tokens: 120
+  temperature: 0.2
+
+alerts:
+  enable_buzzer: true
+  enable_gpio: false
+  gpio_reject_pin: 23         # BCM pin for reject gate relay
+  gpio_pass_pin: 24           # BCM pin for green LED
+  sound_volume: 0.7
+
+storage:
+  db_path: "data/defectsense.db"
+  image_dir: "data/inspections"
+  save_all_images: false      # If false, only save REVIEW and REJECT frames
+  retention_days: 30
+  thumbnail_size: [160, 160]
+
+web:
+  host: "0.0.0.0"
+  port: 8000

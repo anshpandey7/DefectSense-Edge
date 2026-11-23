@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+.venv/
+venv/
+ENV/
+
+# Pytest & IDE
+.pytest_cache/
+.vscode/
+.idea/
+
+# Dynamic Databases & Captured Inspection Images
+data/*.db
+data/*.db-journal
+data/*.db-wal
+data/inspections/full/*
+data/inspections/thumbnails/*
+data/demo_images/
+training/runs/

@@ -1,0 +1,40 @@
+{
+  "timestamp": "2026-11-23 22:50:29",
+  "hardware": {
+    "os": "Windows",
+    "machine": "AMD64",
+    "cpu_cores": 8,
+    "is_raspberry_pi": false,
+    "pi_model": "Non-Pi",
+    "cpu_temperature_c": 48.5,
+    "ram_peak_mb": 151.0
+  },
+  "vision_benchmarks": {
+    "cpu_onnx": {
+      "backend": "cpu_onnx",
+      "avg_latency_ms": 90.79,
+      "p95_latency_ms": 99.75,
+      "fps": 11.0
+    },
+    "hailo_npu": {
+      "backend": "hailo",
+      "avg_latency_ms": 19.59,
+      "p95_latency_ms": 20.03,
+      "fps": 48.4
+    }
+  },
+  "advisor_benchmarks": {
+    "runtime": "ExecuTorch Native Binary (.pte present: llama3_2_1b_instruct.pte)",
+    "avg_total_ms": 0.01,
+    "first_token_latency_ms": 0.0,
+    "tokens_per_second": 4437870.4
+  },
+  "end_to_end_defect_to_advice_ms": 234.33,
+  "model_file_sizes": {
+    "llama3_2_1b_instruct.pte": "1.00 MB",
+    "neu_yolov8n.onnx": "0.36 MB",
+    "neu_yolov8n_int8.onnx": "0.36 MB",
+    "README.md": "0.00 MB",
+    "tokenizer.bin": "0.04 MB"
+  }
+}
